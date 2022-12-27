@@ -21,7 +21,7 @@ public class Board {
     @NotNull
     @Size(min = 2, max = 50)
     private String title;
-    @Size(min = 10, max = 60000)
+//    @Size(min = 10, max = 60000)
     private String content;
 
     @Builder

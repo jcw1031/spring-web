@@ -14,16 +14,21 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public void save(Board board) {
-        boardRepository.save(board);
+    public Board save(Board board) {
+        return boardRepository.save(board);
     }
 
     public List<Board> findAll() {
         return boardRepository.findAll();
     }
 
-    public Board findById(Long id) {
-        return boardRepository.findById(id).orElse(null);
+    public Optional<Board> findById(Long id) {
+        return boardRepository.findById(id);
+    }
+
+    public void delete(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow();
+        boardRepository.delete(board);
     }
 
 }

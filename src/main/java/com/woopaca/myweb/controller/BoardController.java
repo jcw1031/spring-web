@@ -2,6 +2,7 @@ package com.woopaca.myweb.controller;
 
 import com.woopaca.myweb.entity.Board;
 import com.woopaca.myweb.service.BoardService;
+import com.woopaca.myweb.validator.BoardValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final BoardValidator boardValidator;
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -31,13 +33,14 @@ public class BoardController {
             model.addAttribute("board", new Board());
             return "board/form";
         }
-        Board board = boardService.findById(id);
+        Board board = boardService.findById(id).orElse(null);
         model.addAttribute("board", board);
         return "board/form";
     }
 
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult) {
+        boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
             return "board/form";
         }
