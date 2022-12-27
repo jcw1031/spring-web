@@ -1,17 +1,16 @@
 package com.woopaca.myweb.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
-@Getter
+@Getter @Setter
 @ToString
 @NoArgsConstructor
 public class Board {
@@ -19,7 +18,10 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
+    @Size(min = 2, max = 50)
     private String title;
+    @Size(min = 10, max = 60000)
     private String content;
 
     @Builder
