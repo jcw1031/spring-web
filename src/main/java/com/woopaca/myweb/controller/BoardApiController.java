@@ -4,6 +4,7 @@ import com.woopaca.myweb.entity.Board;
 import com.woopaca.myweb.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -15,8 +16,12 @@ public class BoardApiController {
     private final BoardService boardService;
 
     @GetMapping("/boards")
-    public List<Board> all() {
-        return boardService.findAll();
+    public List<Board> all(@RequestParam(required = false, defaultValue = "") String title,
+                           @RequestParam(required = false, defaultValue = "") String content) {
+        if (StringUtils.isEmpty(title) && StringUtils.isEmpty(content)) {
+            return boardService.findAll();
+        }
+        return boardService.findByTitleOrContent(title, content);
     }
 
     @PostMapping("/boards")

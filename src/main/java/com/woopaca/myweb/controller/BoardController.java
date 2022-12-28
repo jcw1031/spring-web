@@ -4,13 +4,14 @@ import com.woopaca.myweb.entity.Board;
 import com.woopaca.myweb.service.BoardService;
 import com.woopaca.myweb.validator.BoardValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/board")
@@ -22,7 +23,9 @@ public class BoardController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        List<Board> boards = boardService.findAll();
+//        List<Board> boards = boardService.findAll();
+        Page<Board> boards = boardService.findAllToPage(PageRequest.of(0, 20));
+        boards.getTotalElements();
         model.addAttribute("boards", boards);
         return "board/list";
     }
